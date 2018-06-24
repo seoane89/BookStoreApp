@@ -33,5 +33,7 @@
     <string name="hiron_supplier">Hiron Bookstore</string>
     <string name="abv_supplier">ABV Bookstore</string>
     <string name="elephant_supplier">Elephant Bookstore</string>
+    <string name="books_label">Books</string>
+    <string name="add_book_label">Add a Book</string>
 
 </resources>
