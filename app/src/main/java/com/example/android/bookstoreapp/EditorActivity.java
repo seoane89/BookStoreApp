@@ -150,7 +150,7 @@ public class EditorActivity extends AppCompatActivity {
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
-        if (newRowId == -2) {
+        if (newRowId == -1) {
             Toast.makeText(this, R.string.error_saving_book, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, getString(R.string.row_id) + newRowId, Toast.LENGTH_SHORT).show();
