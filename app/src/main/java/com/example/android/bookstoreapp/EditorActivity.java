@@ -47,7 +47,7 @@ public class EditorActivity extends AppCompatActivity {
             //Respond to a click on the "Save" menu option
             case R.id.action_save:
                 //Insert book into database
-                insertPet();
+                insertBook();
                 //exit editor activity
                 finish();
                 return true;
@@ -127,7 +127,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     // Get the user input from editor and save the new pet into database
-    private void insertPet() {
+    private void insertBook() {
         String nameString = mBookNameEditText.getText().toString().trim();
         String authorString = mBookAuthorEditText.getText().toString().trim();
         String priceString = mBookPriceEditText.getText().toString().trim();
