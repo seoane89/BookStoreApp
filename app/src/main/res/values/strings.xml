@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Book Store App</string>
+    <string name="book_table_contains">The books table contains</string>
+    <!-- Label for overflow menu option that inserts fake book data into the app [CHAR LIMIT=20] -->
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+
+    <!-- Label for overflow menu option that deletes all book data in the app [CHAR LIMIT=20] -->
+    <string name="action_delete_all_entries">Delete All Books</string>
+
+    <!-- Title for the activity to add a new book [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_book">Add a Book</string>
+
+    <!-- Label for editor menu option to save the book and leave editor [CHAR LIMIT=20] -->
+    <string name="action_save">Save</string>
+
+    <!-- Label for editor overflow menu option that deletes the current book [CHAR LIMIT=20] -->
+    <string name="action_delete">Delete</string>
+
+    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_overview">Overview</string>
+
+    <string name="row_id">\"Row ID \"</string>
+    <string name="error_saving_book">Error saving book</string>
+    <string name="book_name">Book Name</string>
+    <string name="book_author">Book Author</string>
+    <string name="book_price">Book Price</string>
+    <string name="quantity">Quantity</string>
+    <string name="book_quantity">Book Quantity</string>
+    <string name="supplier">Supplier</string>
+    <string name="supplier_information">Supplier Information</string>
+    <string name="supplier_name">Supplier Name</string>
+    <string name="orange_supplier">Orange Center</string>
+    <string name="hiron_supplier">Hiron Bookstore</string>
+    <string name="abv_supplier">ABV Bookstore</string>
+    <string name="elephant_supplier">Elephant Bookstore</string>
+
+</resources>
