@@ -131,7 +131,7 @@ public class EditorActivity extends AppCompatActivity {
         String nameString = mBookNameEditText.getText().toString().trim();
         String authorString = mBookAuthorEditText.getText().toString().trim();
         String priceString = mBookPriceEditText.getText().toString().trim();
-        double price = Double.parseDouble(priceString);
+        float price = Float.parseFloat(priceString);
         String quantityString = mBookQuantityEditText.getText().toString().trim();
         int quantity = Integer.parseInt(quantityString);
 
