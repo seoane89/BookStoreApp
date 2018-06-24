@@ -7,10 +7,4 @@
         <item>@string/elephant_supplier</item>
     </string-array>
 
-    <string-array name="array_supplier_numbers">
-        <item>@string/orange_supplier_number</item>
-        <item>@string/hiron_supplier_number</item>
-        <item>@string/abv_supplier_number</item>
-        <item>@string/elephant_supplier_number</item>
-    </string-array>
 </resources>
