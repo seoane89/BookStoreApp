@@ -1,9 +1,23 @@
 package com.example.android.bookstoreapp.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class BookContract {
-    public static abstract class BookEntry implements BaseColumns{
+
+
+    //Content Authority
+    public static final String CONTENT_AUTHORITIY = "com.example.android.bookstoreapp";
+    //Base content Url
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITIY);
+    //Pets table path
+    public static final String PATH_BOOKS = "books";
+
+    public static abstract class BookEntry implements BaseColumns {
+
+
+        // Usng withAppendedPath() method we add the path to the base content Uri to create the complete content Uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
 
         // Define table name
         public static final String TABLE_NAME = "books";
@@ -30,11 +44,10 @@ public final class BookContract {
         public static final int SUPPLIER_ABV_NUMBER = 33333;
         public static final int SUPPLIER_ELEPHANT_NUMBER = 44444;
 
-
-
-
     }
+
     //Prevents the BookContract class from being instantiated.
-    private BookContract(){}
+    private BookContract() {
+    }
 
 }
