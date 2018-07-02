@@ -47,8 +47,8 @@ public class BookProvider extends ContentProvider {
         // should recognize. All paths added to the UriMatcher have a corresponding code to return
         // when a match is found.
 
-        sUriMatcher.addURI(BookContract.CONTENT_AUTHORITIY, "books", BOOKS);
-        sUriMatcher.addURI(BookContract.CONTENT_AUTHORITIY, "books/#", BOOKS_ID);
+        sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, "books", BOOKS);
+        sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, "books/#", BOOKS_ID);
     }
 
     /**
@@ -234,10 +234,11 @@ public class BookProvider extends ContentProvider {
             case BOOKS_ID:
                 // Delete a single row given by the ID in the URI
                 selection = BookEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
     }
 
     /**
@@ -245,6 +246,14 @@ public class BookProvider extends ContentProvider {
      */
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return BookEntry.CONTENT_LIST_TYPE;
+            case BOOKS_ID:
+                return BookEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
     }
 }
