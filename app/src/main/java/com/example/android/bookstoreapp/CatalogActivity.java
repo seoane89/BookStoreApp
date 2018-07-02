@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
@@ -16,14 +17,11 @@ import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 import com.example.android.bookstoreapp.data.BooksDbHelper;
 
 public class CatalogActivity extends AppCompatActivity {
-    private BooksDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
-        //Create a new instance of the BooksDbHelper
-        mDbHelper = new BooksDbHelper(this);
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -45,8 +43,6 @@ public class CatalogActivity extends AppCompatActivity {
     //Temporary helper method to display the current entries in the database in a textview
     private void displayDatabaseInfo() {
 
-        //Create and/or open a database to read from
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = new String[]{
                 BookEntry._ID,
                 BookEntry.COLUMN_PRODUCT_NAME,
@@ -56,15 +52,9 @@ public class CatalogActivity extends AppCompatActivity {
                 BookEntry.COLUMN_SUPPLIER_NAME,
                 BookEntry.COLUMN_SUPPLIER_NUMBER
         };
-
-        Cursor cursor = db.query(
-                BookEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
+        //Perform a query on the provider using the ContentResolver.
+        //Use the CONTENT_URI to access the book data
+        Cursor cursor = getContentResolver().query(BookEntry.CONTENT_URI, projection, null, null, null);
 
         TextView displayView = (TextView) findViewById(R.id.text_view_book);
 
@@ -123,8 +113,6 @@ public class CatalogActivity extends AppCompatActivity {
     }
 
     private void insertBook() {
-        //Get the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -132,11 +120,14 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_PRODUCT_AUTHOR, "Patrick Rothfuss");
         values.put(BookEntry.COLUMN_PRODUCT_PRICE, 18.00);
         values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 2);
-        values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Tisha");
-        values.put(BookEntry.COLUMN_SUPPLIER_NUMBER, "12345");
+        values.put(BookEntry.COLUMN_SUPPLIER_NAME, BookEntry.SUPPLIER_ABV);
+        values.put(BookEntry.COLUMN_SUPPLIER_NUMBER, BookEntry.SUPPLIER_ABV_NUMBER);
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
+        // Insert a new row for Name of the wind into the provider using the ContentResolver.
+        // Use the {@link BookEntry#CONTENT_URI} to indicate that we want to insert
+        // into the books database table.
+        // Receive the new content URI that will allow us to access the book's data in the future.
+        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
         displayDatabaseInfo();
     }
 

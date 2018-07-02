@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Book Store App</string>
-    <string name="book_table_contains">The books table contains</string>
+    <string name="book_table_contains">The books table contains </string>
     <!-- Label for overflow menu option that inserts fake book data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
 
@@ -20,7 +20,6 @@
     <string name="category_overview">Overview</string>
 
     <string name="row_id">\"Row ID \"</string>
-    <string name="error_saving_book">Error saving book</string>
     <string name="book_name">Book Name</string>
     <string name="book_author">Book Author</string>
     <string name="book_price">Book Price</string>
@@ -35,5 +34,7 @@
     <string name="elephant_supplier">Elephant Bookstore</string>
     <string name="books_label">Books</string>
     <string name="add_book_label">Add a Book</string>
+    <string name="editor_insert_pet_failed">Error saving book</string>
+    <string name="editor_insert_pet_successful">Book saved</string>
 
 </resources>

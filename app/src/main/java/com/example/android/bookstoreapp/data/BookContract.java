@@ -44,6 +44,19 @@ public final class BookContract {
         public static final int SUPPLIER_ABV_NUMBER = 33333;
         public static final int SUPPLIER_ELEPHANT_NUMBER = 44444;
 
+        /**
+         * Returns whether or not the given supplier is {@link #SUPPLIER_UNKNOWN}, {@link #SUPPLIER_ABV}, {@link #SUPPLIER_ELEPHANT}, {@link #SUPPLIER_ORANGE},
+         * or {@link #SUPPLIER_HIRON}.
+         */
+        public static boolean isValidSupplier(int supplier) {
+            if (supplier == SUPPLIER_UNKNOWN || supplier == SUPPLIER_ORANGE || supplier == SUPPLIER_HIRON || supplier == SUPPLIER_ABV || supplier == SUPPLIER_ELEPHANT) {
+                return true;
+            }
+            return false;
+        }
+
+
+
     }
 
     //Prevents the BookContract class from being instantiated.

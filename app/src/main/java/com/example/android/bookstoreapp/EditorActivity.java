@@ -1,22 +1,23 @@
 package com.example.android.bookstoreapp;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+        import android.content.ContentValues;
+        import android.database.sqlite.SQLiteDatabase;
+        import android.net.Uri;
+        import android.os.Bundle;
+        import android.support.v4.app.NavUtils;
+        import android.support.v7.app.AppCompatActivity;
+        import android.text.TextUtils;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
+        import android.widget.EditText;
+        import android.widget.Spinner;
+        import android.widget.Toast;
 
-import com.example.android.bookstoreapp.data.BookContract.BookEntry;
-import com.example.android.bookstoreapp.data.BooksDbHelper;
+        import com.example.android.bookstoreapp.data.BookContract.BookEntry;
+        import com.example.android.bookstoreapp.data.BooksDbHelper;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -35,8 +36,6 @@ public class EditorActivity extends AppCompatActivity {
     // EditText field to enter the supplier Name
     private Spinner mBookSupplierNameSpinner;
 
-
-    private BooksDbHelper mDbHelper;
     private int mSupplier = 0;
     private int mSupplierNumber = 0;
 
@@ -68,9 +67,6 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-
-        //create a new instance for the BooksDbHelper
-        mDbHelper = new BooksDbHelper(this);
 
         // Find all the views that we'll need to read user input from
         mBookNameEditText = (EditText) findViewById(R.id.edit_book_name);
@@ -135,9 +131,6 @@ public class EditorActivity extends AppCompatActivity {
         String quantityString = mBookQuantityEditText.getText().toString().trim();
         int quantity = Integer.parseInt(quantityString);
 
-        // Get the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         //Create a ContentValues Object where column names are the keys
         // and book attributes from the editor are the values
         ContentValues values = new ContentValues();
@@ -148,12 +141,18 @@ public class EditorActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, mSupplier);
         values.put(BookEntry.COLUMN_SUPPLIER_NUMBER, mSupplierNumber);
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
-        if (newRowId == -1) {
-            Toast.makeText(this, R.string.error_saving_book, Toast.LENGTH_SHORT).show();
+        // Insert a new pet into the provider, returning the content URI for the new pet.
+        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+
+        // Show a toast message depending on whether or not the insertion was successful
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion.
+            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                    Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, getString(R.string.row_id) + newRowId, Toast.LENGTH_SHORT).show();
+            // Otherwise, the insertion was successful and we can display a toast.
+            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
