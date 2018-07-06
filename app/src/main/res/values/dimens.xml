@@ -15,5 +15,7 @@
 
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
+    <dimen name="vertical_margins">8dp</dimen>
+    <dimen name="list_item_name_text_size">24sp</dimen>
 </resources>
 

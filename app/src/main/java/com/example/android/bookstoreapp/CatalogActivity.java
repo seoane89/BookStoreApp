@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
@@ -56,60 +57,13 @@ public class CatalogActivity extends AppCompatActivity {
         //Use the CONTENT_URI to access the book data
         Cursor cursor = getContentResolver().query(BookEntry.CONTENT_URI, projection, null, null, null);
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_book);
 
-        try {
-            // Create a header in the Text View that looks like this:
-            //
-            // The books table contains <number of rows in Cursor> books.
-            // _id -  product name - author - product price - product quantity - supplier name - supplier number
-            //
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-            displayView.setText(getString(R.string.book_table_contains) + cursor.getCount() + " books.\n\n");
-            displayView.append(BookEntry._ID + " - " +
-                    BookEntry.COLUMN_PRODUCT_NAME + " - " +
-                    BookEntry.COLUMN_PRODUCT_AUTHOR + " - " +
-                    BookEntry.COLUMN_PRODUCT_PRICE + " - " +
-                    BookEntry.COLUMN_PRODUCT_QUANTITY + " - " +
-                    BookEntry.COLUMN_SUPPLIER_NAME + " - " +
-                    BookEntry.COLUMN_SUPPLIER_NUMBER + " - " + "\n");
+        // Find listview to populate
+        ListView listView = (ListView) findViewById(R.id.listview);
 
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
-            int authorColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_AUTHOR);
-            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY);
-            int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_SUPPLIER_NAME);
-            int supplierNumberColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_SUPPLIER_NUMBER);
-
-            // Iterate through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                String currentAuthor = cursor.getString(authorColumnIndex);
-                float currentPrice = cursor.getFloat(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentSupplierName = cursor.getString(supplierNameColumnIndex);
-                int currentSupplierNumber = cursor.getInt(supplierNumberColumnIndex);
-                // Display the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" +
-                        currentID + " - " +
-                        currentName + " - " +
-                        currentAuthor + " - " +
-                        currentPrice + " - " +
-                        currentQuantity + " - " +
-                        currentSupplierName + " - " +
-                        currentSupplierNumber));
-            }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
-        }
+        // Setup cursor adapter
+        BookCursorAdapter bookCursorAdapter = new BookCursorAdapter(this, cursor);
+        listView.setAdapter(bookCursorAdapter);
     }
 
     private void insertBook() {
