@@ -76,7 +76,6 @@
                 android:hint="@string/book_quantity"
                 android:inputType="number" />
 
-
         </LinearLayout>
     </LinearLayout>
 
@@ -114,7 +113,6 @@
             <TextView
                 android:id="@+id/supplier_phone"
                 style="@style/EditorFieldStyle"
-                android:inputType="textCapWords"
                 tools:text="08990123456" />
 
         </LinearLayout>
