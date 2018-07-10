@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.android.bookstoreapp.data.BookContract;
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 
+import static java.lang.String.valueOf;
+
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view
  * that uses a {@link Cursor} of pet data as its data source. This adapter knows
@@ -58,17 +60,21 @@ public class BookCursorAdapter extends CursorAdapter {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.book_name_text_view);
         TextView summaryTextView = (TextView) view.findViewById(R.id.book_author_text_view);
+        TextView priceTextView = (TextView) view.findViewById(R.id.book_price_text_view);
 
         // Find the columns of pet attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
         int authorColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_AUTHOR);
+        int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
 
         // Read the pet attributes from the Cursor for the current pet
         String bookName = cursor.getString(nameColumnIndex);
         String bookAuthor = cursor.getString(authorColumnIndex);
+        float price = cursor.getFloat(priceColumnIndex);
 
         // Update the TextViews with the attributes for the current pet
         nameTextView.setText(bookName);
         summaryTextView.setText(bookAuthor);
+        priceTextView.setText(valueOf(price));
     }
 }

@@ -60,6 +60,9 @@ public class CatalogActivity extends AppCompatActivity {
 
         // Find listview to populate
         ListView listView = (ListView) findViewById(R.id.listview);
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        listView.setEmptyView(emptyView);
 
         // Setup cursor adapter
         BookCursorAdapter bookCursorAdapter = new BookCursorAdapter(this, cursor);

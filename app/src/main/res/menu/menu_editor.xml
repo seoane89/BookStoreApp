@@ -20,6 +20,7 @@
         android:id="@+id/action_save"
         android:title="@string/action_save"
         android:icon="@drawable/ic_done"
+        android:iconTint="@color/colorAccent"
         app:showAsAction="always" />
 
     <item

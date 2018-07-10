@@ -36,5 +36,10 @@
     <string name="add_book_label">Add a Book</string>
     <string name="editor_insert_pet_failed">Error saving book</string>
     <string name="editor_insert_pet_successful">Book saved</string>
+    <string name="empty_view_title_text">Do you want to have stacked shelves?</string>
 
+    <!-- Subtitle text for the empty view that prompts the user to add a book [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get started by adding a book</string>
+    <string name="book_store_label">Book Store</string>
+    <string name="lv_text">lv</string>
 </resources>
