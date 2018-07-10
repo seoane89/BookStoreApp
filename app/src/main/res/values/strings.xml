@@ -42,4 +42,6 @@
     <string name="empty_view_subtitle_text">Get started by adding a book</string>
     <string name="book_store_label">Book Store</string>
     <string name="lv_text">lv</string>
+    <string name="add_book">Add a Book</string>
+    <string name="edit_book">Edit Book</string>
 </resources>

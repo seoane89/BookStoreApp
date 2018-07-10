@@ -17,7 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditorActivity"
-            android:label="@string/add_book_label"
             android:parentActivityName=".CatalogActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
