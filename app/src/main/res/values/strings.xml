@@ -28,14 +28,15 @@
     <string name="supplier">Supplier</string>
     <string name="supplier_information">Supplier Information</string>
     <string name="supplier_name">Supplier Name</string>
+    <string name="unknown_supplier">Unknown Supplier</string>
     <string name="orange_supplier">Orange Center</string>
     <string name="hiron_supplier">Hiron Bookstore</string>
     <string name="abv_supplier">ABV Bookstore</string>
     <string name="elephant_supplier">Elephant Bookstore</string>
     <string name="books_label">Books</string>
     <string name="add_book_label">Add a Book</string>
-    <string name="editor_insert_pet_failed">Error saving book</string>
-    <string name="editor_insert_pet_successful">Book saved</string>
+    <string name="editor_update_book_failed">Error saving book</string>
+    <string name="editor_update_book_successful">Book saved</string>
     <string name="empty_view_title_text">Do you want to have stacked shelves?</string>
 
     <!-- Subtitle text for the empty view that prompts the user to add a book [CHAR LIMIT=50] -->
@@ -44,4 +45,28 @@
     <string name="lv_text">lv</string>
     <string name="add_book">Add a Book</string>
     <string name="edit_book">Edit Book</string>
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current book [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+
+    <!-- Toast message in editor when current book was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_book_successful">Book deleted</string>
+
+    <!-- Toast message in editor when current book has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_book_failed">Error with deleting book</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this book?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current book [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current book [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
 </resources>

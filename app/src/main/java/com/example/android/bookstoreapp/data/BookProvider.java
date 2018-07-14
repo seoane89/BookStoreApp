@@ -25,12 +25,12 @@ public class BookProvider extends ContentProvider {
     public static final String LOG_TAG = BookProvider.class.getSimpleName();
 
     /**
-     * URI matcher code for the content URI for the pets table
+     * URI matcher code for the content URI for the books table
      */
     private static final int BOOKS = 100;
 
     /**
-     * URI matcher code for the content URI for a single pet in the pets table
+     * URI matcher code for the content URI for a single book in the books table
      */
     private static final int BOOKS_ID = 101;
 
@@ -142,9 +142,12 @@ public class BookProvider extends ContentProvider {
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
-
+            return null;
         }
-        return null;
+        //Notify all listeners that the data has changed
+        getContext().getContentResolver().notifyChange(uri, null);
+        //Return the new ID with the newly inserted row, appended at the end
+        return ContentUris.withAppendedId(uri, id);
     }
 
 
@@ -157,14 +160,14 @@ public class BookProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateBook(uri, contentValues, selection, selectionArgs);
             case BOOKS_ID:
-                // For the PET_ID code, extract out the ID from the URI,
+                // For the BOOK_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = BookEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateBook(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
@@ -175,7 +178,7 @@ public class BookProvider extends ContentProvider {
      * specified in the selection and selection arguments (which could be 0 or 1 or more books).
      * Return the number of rows that were successfully updated.
      */
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // Check that the name is not null
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
@@ -250,7 +253,7 @@ public class BookProvider extends ContentProvider {
             case BOOKS_ID:
                 // Delete a single row given by the ID in the URI
                 selection = BookEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:

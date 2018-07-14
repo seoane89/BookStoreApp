@@ -15,8 +15,8 @@ import static java.lang.String.valueOf;
 
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view
- * that uses a {@link Cursor} of pet data as its data source. This adapter knows
- * how to create list items for each row of pet data in the {@link Cursor}.
+ * that uses a {@link Cursor} of book data as its data source. This adapter knows
+ * how to create list items for each row of book data in the {@link Cursor}.
  */
 public class BookCursorAdapter extends CursorAdapter {
 
@@ -62,17 +62,17 @@ public class BookCursorAdapter extends CursorAdapter {
         TextView summaryTextView = (TextView) view.findViewById(R.id.book_author_text_view);
         TextView priceTextView = (TextView) view.findViewById(R.id.book_price_text_view);
 
-        // Find the columns of pet attributes that we're interested in
+        // Find the columns of book attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
         int authorColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_AUTHOR);
         int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
 
-        // Read the pet attributes from the Cursor for the current pet
+        // Read the book attributes from the Cursor for the current book
         String bookName = cursor.getString(nameColumnIndex);
         String bookAuthor = cursor.getString(authorColumnIndex);
         float price = cursor.getFloat(priceColumnIndex);
 
-        // Update the TextViews with the attributes for the current pet
+        // Update the TextViews with the attributes for the current book
         nameTextView.setText(bookName);
         summaryTextView.setText(bookAuthor);
         priceTextView.setText(valueOf(price));

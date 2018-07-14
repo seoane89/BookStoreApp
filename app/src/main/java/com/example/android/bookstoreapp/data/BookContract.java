@@ -11,7 +11,7 @@ public final class BookContract {
     public static final String CONTENT_AUTHORITY = "com.example.android.bookstoreapp";
     //Base content Url
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    //Pets table path
+    //Books table path
     public static final String PATH_BOOKS = "books";
 
     public static abstract class BookEntry implements BaseColumns {

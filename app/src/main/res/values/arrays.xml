@@ -5,6 +5,7 @@
         <item>@string/hiron_supplier</item>
         <item>@string/abv_supplier</item>
         <item>@string/elephant_supplier</item>
+        <item>@string/unknown_supplier</item>
     </string-array>
 
 </resources>
