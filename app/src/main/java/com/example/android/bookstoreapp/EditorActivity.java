@@ -19,11 +19,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
+
+import java.util.ArrayList;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private final static int EXISTING_BOOK_LOADER = 0;
@@ -43,12 +47,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     // Spinner field to select the supplier Name
     private Spinner mBookSupplierNameSpinner;
 
+    public TextView supplierNumberTextView;
+
     private int mSupplier = 0;
     private int mSupplierNumber = 0;
+    int currentSupplierNumber = 0;
 
     private Uri mCurrentBookUri;
 
     private boolean mBookHasChanged = false;
+
+    Button incrementButton;
+    Button decrementButton;
+    int quantity = 0;
+    String quantityString;
+    Button orderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +94,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mBookPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mBookQuantityEditText = (EditText) findViewById(R.id.edit_book_quantity);
         mBookSupplierNameSpinner = (Spinner) findViewById(R.id.supplier_spinner);
+        supplierNumberTextView = (TextView) findViewById(R.id.supplier_phone);
 
         setupSpinner();
 
@@ -90,7 +104,59 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mBookQuantityEditText.setOnTouchListener(mTouchListener);
         mBookSupplierNameSpinner.setOnTouchListener(mTouchListener);
 
+        incrementButton = findViewById(R.id.increment_button);
+        decrementButton = findViewById(R.id.decrement_button);
+        orderButton = findViewById(R.id.order_button);
+
+        incrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantityString = mBookQuantityEditText.getText().toString().trim();
+                if (TextUtils.isEmpty(quantityString)) {
+                    quantity = 0;
+                } else {
+                    quantity = Integer.parseInt(quantityString);
+                    quantity = quantity + 1;
+
+                    quantityString = Integer.toString(quantity);
+                    mBookQuantityEditText.setText(quantityString);
+                }
+            }
+        });
+
+        decrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantityString = mBookQuantityEditText.getText().toString().trim();
+                if (TextUtils.isEmpty(quantityString)) {
+                    quantity = 0;
+                } else {
+                    quantity = Integer.parseInt(quantityString);
+                }
+                if (quantity > 0) {
+                    quantity = quantity - 1;
+                    quantityString = Integer.toString(quantity);
+                    mBookQuantityEditText.setText(quantityString);
+                } else {
+                    Toast.makeText(EditorActivity.this, R.string.cant_less_than_zero, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        orderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent orderIntent = new Intent(Intent.ACTION_DIAL);
+                orderIntent.setData(Uri.parse("tel:" + currentSupplierNumber));
+                if (orderIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(orderIntent);
+                }
+            }
+        });
+
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -135,6 +201,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         // If the book hasn't changed, continue with handling back button press
@@ -159,7 +226,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-
     // OnTouchListener that listens for any user touches on a View, implying that they are modifying
 // the view, and we change the mBookHasChanged boolean to true.
 
@@ -170,6 +236,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return false;
         }
     };
+
     // Setup the spinner that allows the user to select supplier from a list
     private void setupSpinner() {
         //Create adapter for spinner, the list options are from array
@@ -203,12 +270,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         mSupplier = BookEntry.SUPPLIER_UNKNOWN; //Unknown
                         mSupplierNumber = BookEntry.SUPPLIER_UNKNOWN_NUMBER;
                     }
+                    supplierNumberTextView.setText(String.valueOf(mSupplierNumber));
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mSupplier = 0; //Unknown supplier
 
             }
         });
@@ -219,7 +286,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mBookNameEditText.getText().toString().trim();
         String authorString = mBookAuthorEditText.getText().toString().trim();
         String priceString = mBookPriceEditText.getText().toString().trim();
-        String quantityString = mBookQuantityEditText.getText().toString().trim();
+        String quantityString = Integer.toString(quantity);
 
         if (mCurrentBookUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(authorString) &&
@@ -240,9 +307,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             quantity = Integer.parseInt(quantityString);
         }
         values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, quantity);
-        float price = 0.0f;
+        double price = 0.00;
         if (!TextUtils.isEmpty(priceString)) {
-            price = Float.parseFloat(priceString);
+            price = Double.parseDouble(priceString);
         }
         values.put(BookEntry.COLUMN_PRODUCT_PRICE, price);
 
@@ -288,6 +355,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -334,15 +402,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Extract out the value from the Cursor for the given column index
             String currentName = data.getString(nameColumnIndex);
             String currentAuthor = data.getString(authorColumnIndex);
-            float currentPrice = data.getFloat(priceColumnIndex);
+            double currentPrice = data.getDouble(priceColumnIndex);
             int currentQuantity = data.getInt(quantityColumnIndex);
             int currentSupplierName = data.getInt(supplierNameColumnIndex);
-            int currentSupplierNumber = data.getInt(supplierNumberColumnIndex);
+            currentSupplierNumber = data.getInt(supplierNumberColumnIndex);
+            currentSupplierNumber = mSupplierNumber;
 
             // Update the views on the screen with the values from the database
             mBookNameEditText.setText(currentName);
             mBookAuthorEditText.setText(currentAuthor);
-            mBookPriceEditText.setText(Float.toString(currentPrice));
+            mBookPriceEditText.setText(Double.toString(currentPrice));
             mBookQuantityEditText.setText(Integer.toString(currentQuantity));
             // Supplier is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
@@ -350,19 +419,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             switch (currentSupplierName) {
                 case BookEntry.SUPPLIER_ORANGE:
                     mBookSupplierNameSpinner.setSelection(1);
+                    currentSupplierNumber = BookEntry.SUPPLIER_ORANGE_NUMBER;
                     break;
                 case BookEntry.SUPPLIER_HIRON:
                     mBookSupplierNameSpinner.setSelection(2);
+                    currentSupplierNumber = BookEntry.SUPPLIER_HIRON_NUMBER;
                     break;
                 case BookEntry.SUPPLIER_ABV:
                     mBookSupplierNameSpinner.setSelection(3);
+                    currentSupplierNumber = BookEntry.SUPPLIER_ABV_NUMBER;
                     break;
                 case BookEntry.SUPPLIER_ELEPHANT:
                     mBookSupplierNameSpinner.setSelection(4);
+                    currentSupplierNumber = BookEntry.SUPPLIER_ELEPHANT_NUMBER;
                     break;
 
                 default:
                     mBookSupplierNameSpinner.setSelection(0);
+                    currentSupplierNumber = BookEntry.SUPPLIER_UNKNOWN_NUMBER;
                     break;
             }
         }
@@ -374,7 +448,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mBookAuthorEditText.setText(null);
         mBookPriceEditText.setText(null);
         mBookQuantityEditText.setText(null);
-        mBookSupplierNameSpinner.setSelection(0);
     }
 
     /**

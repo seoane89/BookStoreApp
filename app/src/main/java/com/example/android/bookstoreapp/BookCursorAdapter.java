@@ -1,17 +1,21 @@
 package com.example.android.bookstoreapp;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.android.bookstoreapp.data.BookContract;
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 
-import static java.lang.String.valueOf;
 
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view
@@ -56,25 +60,71 @@ public class BookCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.book_name_text_view);
         TextView summaryTextView = (TextView) view.findViewById(R.id.book_author_text_view);
-        TextView priceTextView = (TextView) view.findViewById(R.id.book_price_text_view);
-
+        TextView priceTextView = (TextView) view.findViewById(R.id.price_text_view);
+        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity_text_view);
+        ImageView saleImageView = (ImageView) view.findViewById(R.id.sale_button);
+        View infoContainerView = (View) view.findViewById(R.id.book_info_container);
         // Find the columns of book attributes that we're interested in
+        int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
         int authorColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_AUTHOR);
         int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY);
 
         // Read the book attributes from the Cursor for the current book
+        final int id = cursor.getInt(idColumnIndex);
         String bookName = cursor.getString(nameColumnIndex);
         String bookAuthor = cursor.getString(authorColumnIndex);
-        float price = cursor.getFloat(priceColumnIndex);
+        double bookPrice = cursor.getDouble(priceColumnIndex);
+        final int bookQuantity = cursor.getInt(quantityColumnIndex);
 
         // Update the TextViews with the attributes for the current book
         nameTextView.setText(bookName);
         summaryTextView.setText(bookAuthor);
-        priceTextView.setText(valueOf(price));
+        priceTextView.setText(context.getResources().getString(R.string.price_string) + String.valueOf(bookPrice));
+        quantityTextView.setText(context.getResources().getString(R.string.quantity_string) + String.valueOf(bookQuantity));
+
+        infoContainerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editorIntent = new Intent(context, EditorActivity.class);
+                //Form the content URI that represents the specific book that was clicked on
+                //by appending the id
+
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+                //Set the uri on the data field of the intent
+                editorIntent.setData(currentBookUri);
+                //Launch the EditorActivity
+                context.startActivity(editorIntent);
+            }
+        });
+
+        saleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = bookQuantity;
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+                if (quantity >= 1) {
+                    quantity = quantity - 1;
+                    ContentValues values = new ContentValues();
+                    values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+                    int rowsAffected = context.getContentResolver().update(currentBookUri, values, null, null);
+                    if (rowsAffected != 0) {
+                        quantityTextView.setText(context.getResources().getString(R.string.quantity_string) + String.valueOf(bookQuantity));
+                        Toast.makeText(context, R.string.successful_sale, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, R.string.sold_out, Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+
     }
 }

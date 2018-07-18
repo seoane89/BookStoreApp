@@ -47,21 +47,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         mCursorAdapter = new BookCursorAdapter(this, null);
         listView.setAdapter(mCursorAdapter);
 
-        //Setup the item click listener
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                //Form the content URI that represents the specific book that was clicked on
-                //by appending the id
 
-                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
-                //Set the uri on the data field of the intent
-                intent.setData(currentBookUri);
-                //Launch the EditorActivity
-                startActivity(intent);
-            }
-        });
 
         //Kick off the loader
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
@@ -122,7 +108,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 BookEntry._ID,
                 BookEntry.COLUMN_PRODUCT_NAME,
                 BookEntry.COLUMN_PRODUCT_AUTHOR,
-                BookEntry.COLUMN_PRODUCT_PRICE};
+                BookEntry.COLUMN_PRODUCT_PRICE,
+                BookEntry.COLUMN_PRODUCT_QUANTITY
+        };
         // This Loader will execute the ContentProvider's query method on a background thread
         //Use the CONTENT_URI to access the book data
         return new CursorLoader(this, BookEntry.CONTENT_URI, projection, null, null, null);

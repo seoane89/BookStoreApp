@@ -121,7 +121,7 @@ public class BookProvider extends ContentProvider {
         if (name == null) {
             throw new IllegalArgumentException("Book requires an author");
         }
-        float price = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
+        double price = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
         if (price < 0.0) {
             throw new IllegalArgumentException("Book requires a valid price");
         }
@@ -194,7 +194,7 @@ public class BookProvider extends ContentProvider {
             }
         }
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_PRICE)) {
-            float price = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
+            double price = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
             if (price < 0.0) {
                 throw new IllegalArgumentException("Book requires a valid price");
             }
