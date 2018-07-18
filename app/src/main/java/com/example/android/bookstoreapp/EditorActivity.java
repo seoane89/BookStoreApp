@@ -276,6 +276,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                mSupplier = 0; //Unkwnown
 
             }
         });
@@ -420,24 +421,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Then call setSelection() so that option is displayed on screen as the current selection.
             switch (currentSupplierName) {
                 case BookEntry.SUPPLIER_ORANGE:
-                    mBookSupplierNameSpinner.setSelection(1);
+                    mBookSupplierNameSpinner.setSelection(0);
                     currentSupplierNumber = BookEntry.SUPPLIER_ORANGE_NUMBER;
                     break;
                 case BookEntry.SUPPLIER_HIRON:
-                    mBookSupplierNameSpinner.setSelection(2);
+                    mBookSupplierNameSpinner.setSelection(1);
                     currentSupplierNumber = BookEntry.SUPPLIER_HIRON_NUMBER;
                     break;
                 case BookEntry.SUPPLIER_ABV:
-                    mBookSupplierNameSpinner.setSelection(3);
+                    mBookSupplierNameSpinner.setSelection(2);
                     currentSupplierNumber = BookEntry.SUPPLIER_ABV_NUMBER;
                     break;
                 case BookEntry.SUPPLIER_ELEPHANT:
-                    mBookSupplierNameSpinner.setSelection(4);
+                    mBookSupplierNameSpinner.setSelection(3);
                     currentSupplierNumber = BookEntry.SUPPLIER_ELEPHANT_NUMBER;
                     break;
 
                 default:
-                    mBookSupplierNameSpinner.setSelection(0);
+                    mBookSupplierNameSpinner.setSelection(4);
                     currentSupplierNumber = BookEntry.SUPPLIER_UNKNOWN_NUMBER;
                     break;
             }
