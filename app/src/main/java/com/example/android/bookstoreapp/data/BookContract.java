@@ -62,10 +62,7 @@ public final class BookContract {
          * or {@link #SUPPLIER_HIRON}.
          */
         public static boolean isValidSupplier(int supplier) {
-            if (supplier == SUPPLIER_UNKNOWN || supplier == SUPPLIER_ORANGE || supplier == SUPPLIER_HIRON || supplier == SUPPLIER_ABV || supplier == SUPPLIER_ELEPHANT) {
-                return true;
-            }
-            return false;
+            return supplier == SUPPLIER_UNKNOWN || supplier == SUPPLIER_ORANGE || supplier == SUPPLIER_HIRON || supplier == SUPPLIER_ABV || supplier == SUPPLIER_ELEPHANT;
         }
 
 

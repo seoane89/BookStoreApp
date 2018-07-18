@@ -62,12 +62,12 @@ public class BookCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
-        TextView nameTextView = (TextView) view.findViewById(R.id.book_name_text_view);
-        TextView summaryTextView = (TextView) view.findViewById(R.id.book_author_text_view);
-        TextView priceTextView = (TextView) view.findViewById(R.id.price_text_view);
-        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity_text_view);
-        ImageView saleImageView = (ImageView) view.findViewById(R.id.sale_button);
-        View infoContainerView = (View) view.findViewById(R.id.book_info_container);
+        TextView nameTextView = view.findViewById(R.id.book_name_text_view);
+        TextView summaryTextView = view.findViewById(R.id.book_author_text_view);
+        TextView priceTextView = view.findViewById(R.id.price_text_view);
+        final TextView quantityTextView = view.findViewById(R.id.quantity_text_view);
+        ImageView saleImageView = view.findViewById(R.id.sale_button);
+        View infoContainerView = view.findViewById(R.id.book_info_container);
         // Find the columns of book attributes that we're interested in
         int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);

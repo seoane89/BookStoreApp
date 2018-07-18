@@ -89,12 +89,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         // Find all the views that we'll need to read user input from
-        mBookNameEditText = (EditText) findViewById(R.id.edit_book_name);
-        mBookAuthorEditText = (EditText) findViewById(R.id.edit_book_author);
-        mBookPriceEditText = (EditText) findViewById(R.id.edit_book_price);
-        mBookQuantityEditText = (EditText) findViewById(R.id.edit_book_quantity);
-        mBookSupplierNameSpinner = (Spinner) findViewById(R.id.supplier_spinner);
-        supplierNumberTextView = (TextView) findViewById(R.id.supplier_phone);
+        mBookNameEditText = findViewById(R.id.edit_book_name);
+        mBookAuthorEditText = findViewById(R.id.edit_book_author);
+        mBookPriceEditText = findViewById(R.id.edit_book_price);
+        mBookQuantityEditText = findViewById(R.id.edit_book_quantity);
+        mBookSupplierNameSpinner = findViewById(R.id.supplier_spinner);
+        supplierNumberTextView = findViewById(R.id.supplier_phone);
 
         setupSpinner();
 
