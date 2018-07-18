@@ -9,8 +9,10 @@
     android:paddingBottom="@dimen/vertical_margins"
     android:paddingLeft="@dimen/activity_margin">
     <LinearLayout
+        android:id="@+id/book_info_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:minHeight="@dimen/min_touch_target"
         android:orientation="vertical"
         android:layout_weight="9">
     <TextView
@@ -26,13 +28,14 @@
         android:id="@+id/book_author_text_view"
         tools:text="Patrick Rothfuss"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/book_price_text_view"
+    <Button
+        android:id="@+id/book_sale_button"
         android:layout_weight="1"
         android:layout_width="@dimen/min_touch_target"
         android:layout_height="@dimen/min_touch_target"
         android:gravity="center"
         android:textStyle="bold"
-        tools:text="15.50"/>
+        android:background="@drawable/circle_shape"
+        android:text="@string/sale_button"/>
 
 </LinearLayout>
