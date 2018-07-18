@@ -288,6 +288,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String priceString = mBookPriceEditText.getText().toString().trim();
         String quantityString = Integer.toString(quantity);
 
+
+
         if (mCurrentBookUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(authorString) &&
                 TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
@@ -301,7 +303,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
         values.put(BookEntry.COLUMN_PRODUCT_AUTHOR, authorString);
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, mSupplier);
-        values.put(BookEntry.COLUMN_SUPPLIER_NUMBER, mSupplierNumber);
+        values.put(BookEntry.COLUMN_SUPPLIER_NUMBER, currentSupplierNumber);
         int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
