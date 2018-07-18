@@ -163,8 +163,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.action_save:
                 //Insert book into database
                 saveBook();
-                //exit editor activity
-                finish();
                 return true;
             //Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -297,10 +295,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         //Create a ContentValues Object where column names are the keys
         // and book attributes from the editor are the values
         ContentValues values = new ContentValues();
-        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(authorString)){
-            Toast.makeText(this, R.string.input_fields, Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(nameString)) {
+            Toast.makeText(this, R.string.input_name, Toast.LENGTH_SHORT).show();
         } else {
             values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
+        }
+        if (TextUtils.isEmpty(authorString)) {
+            Toast.makeText(this, R.string.input_author, Toast.LENGTH_SHORT).show();
+        } else {
             values.put(BookEntry.COLUMN_PRODUCT_AUTHOR, authorString);
         }
 
@@ -328,6 +330,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
+                finish();
                 // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_book_successful),
                         Toast.LENGTH_SHORT).show();
@@ -344,9 +347,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
+                finish();
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_book_successful),
                         Toast.LENGTH_SHORT).show();
+
             }
         }
     }

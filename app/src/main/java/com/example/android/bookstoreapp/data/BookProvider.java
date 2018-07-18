@@ -116,12 +116,12 @@ public class BookProvider extends ContentProvider {
         // Check that the name is not null
         String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
-            throw new IllegalArgumentException("Book requires a name");
+            Toast.makeText(getContext(), R.string.input_name, Toast.LENGTH_SHORT).show();
         }
         // Check that the author is not null
         String author = values.getAsString(BookEntry.COLUMN_PRODUCT_AUTHOR);
         if (name == null) {
-            throw new IllegalArgumentException("Book requires an author");
+            Toast.makeText(getContext(), R.string.input_author, Toast.LENGTH_SHORT).show();
         }
         double price = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
         if (price < 0.0) {

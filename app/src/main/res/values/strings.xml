@@ -81,6 +81,7 @@
     <string name="plus_button_text">+</string>
     <string name="cant_less_than_zero">Can\'t have less than 0 books</string>
     <string name="order">Order</string>
-    <string name="input_fields">Please input valid Book Name and Author</string>
+    <string name="input_name">Please input a Book Name</string>
+    <string name="input_author">Please input a Book Author</string>
 
 </resources>
