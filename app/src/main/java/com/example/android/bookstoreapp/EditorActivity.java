@@ -27,8 +27,6 @@ import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 
-import java.util.ArrayList;
-
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private final static int EXISTING_BOOK_LOADER = 0;
 
@@ -155,7 +153,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
 
     }
-
 
 
     @Override
@@ -290,7 +287,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String quantityString = Integer.toString(quantity);
 
 
-
         if (mCurrentBookUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(authorString) &&
                 TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
@@ -301,11 +297,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         //Create a ContentValues Object where column names are the keys
         // and book attributes from the editor are the values
         ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
-        values.put(BookEntry.COLUMN_PRODUCT_AUTHOR, authorString);
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(authorString)){
+            Toast.makeText(this, R.string.input_fields, Toast.LENGTH_SHORT).show();
+        } else {
+            values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
+            values.put(BookEntry.COLUMN_PRODUCT_AUTHOR, authorString);
+        }
+
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, mSupplier);
         values.put(BookEntry.COLUMN_SUPPLIER_NUMBER, currentSupplierNumber);
-        int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
